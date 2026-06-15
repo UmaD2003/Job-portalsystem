@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+
+    <h2 class="mb-4">🎯 Interview Feedback</h2>
+
+    <div class="card shadow p-4">
+
+        <p><strong>Question:</strong><br> {{ question }}</p>
+
+        <hr>
+
+        <p><strong>Your Answer:</strong><br> {{ answer }}</p>
+
+        <hr>
+
+        <p><strong>Score:</strong>
+            <p><strong>Total Score:</strong> {{ score }} / {{ total }}</p>
+        </p>
+
+        <p><strong>Feedback:</strong><br> {{ feedback }}</p>
+
+    </div>
+
+    <br>
+
+    <a href="{% url 'interview_bot' %}" class="btn btn-primary">
+        🔁 Try Another Question
+    </a>
+
+</div>
+
+{% endblock %}

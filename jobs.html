@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-4">
+
+<h2 class="page-title text-center mb-4">Latest Job Openings</h2>
+
+<form method="get" class="mb-4">
+    <input
+    type="text"
+    id="searchInput"
+    name="q"
+    placeholder="Search jobs..."
+    class="form-control form-control-lg"
+    value="{{ request.GET.q }}"
+>
+</form>
+    <div class="text-center mb-3">
+
+<button onclick="startAssistant()" class="btn btn-warning voice-btn mt-3">
+🎤 Voice Job Search
+</button>
+        <a href="{% url 'interview_bot' %}" class="btn btn-info">
+🧠 Practice Interview
+</a>
+
+
+</div>
+
+<div class="row">
+
+{% for job in jobs %}
+
+<div class="col-lg-4 col-md-6 mb-4">
+
+<div class="card job-card h-100">
+
+<div class="card-body">
+
+<div class="job-header d-flex align-items-center mb-3">
+
+
+<div>
+<h5 class="job-title mb-1">{{ job.title }}</h5>
+<p class="job-company mb-0">{{ job.company }}</p>
+</div>
+
+</div>
+<p class="job-company">🏢 {{ job.company }}</p>
+    <p>🎓 Qualification: {{ job.qualification }}</p>
+
+<p class="job-location">📍 {{ job.location }}</p>
+
+<div class="job-info mt-2">
+
+<span class="badge bg-success me-2">{{ job.job_type }}</span>
+
+<span class="salary">💰 {{ job.salary|default:"Salary Not Disclosed" }}</span>
+
+
+</div>
+<p>👥 Vacancies: {{ job.remaining_vacancies }}</p>
+
+{% if job.remaining_vacancies <= 2 and job.remaining_vacancies > 0 %}
+    <p style="color:red;">⚠ Only {{ job.remaining_vacancies }} positions left!</p>
+{% endif %}
+
+<a href="/job/{{ job.id }}/" class="btn btn-primary mt-3 w-100">View Job</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+<div class="pagination text-center mt-4">
+
+    {% if jobs.has_previous %}
+        <a class="btn btn-secondary"
+           href="?q={{ request.GET.q }}&page={{ jobs.previous_page_number }}">
+           Previous
+        </a>
+    {% endif %}
+
+    <span class="mx-3">
+        Page {{ jobs.number }} of {{ jobs.paginator.num_pages }}
+    </span>
+
+    {% if jobs.has_next %}
+        <a class="btn btn-primary"
+           href="?q={{ request.GET.q }}&page={{ jobs.next_page_number }}">
+           Next
+        </a>
+    {% endif %}
+
+</div>
+
+</div>
+
+<script>
+
+    function speak(text){
+let speech = new SpeechSynthesisUtterance(text);
+speech.lang = "en-US";
+window.speechSynthesis.speak(speech);
+}
+
+function startAssistant(){
+
+const recognition = new webkitSpeechRecognition();
+
+recognition.lang = "en-US";
+
+recognition.start();
+
+recognition.onresult = function(event){
+
+let command = event.results[0][0].transcript.toLowerCase();
+
+if(command.includes("python")){
+speak("Searching Python jobs");
+searchJob("Python");
+}
+
+else if(command.includes("data")){
+speak("Searching Data Analyst jobs");
+searchJob("Data");
+}
+
+else if(command.includes("testing")){
+speak("Searching Testing jobs");
+searchJob("Testing");
+}
+
+else if(command.includes("intern")){
+speak("Searching Internship jobs");
+searchJob("Intern");
+}
+
+else{
+speak("Sorry I did not understand your request");
+}
+
+}
+
+}
+
+function searchJob(skill){
+
+document.getElementById("searchInput").value = skill;
+
+document.forms[0].submit();
+
+}
+
+</script>
+
+{% endblock %}

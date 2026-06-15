@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Interview Practice </h2>
+
+<h4>Question {{ q_number }} of {{ total }}</h4>
+<p><strong>Question:</strong> {{ question }}</p>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <textarea name="answer" id="answerBox" rows="5" cols="50"
+        placeholder="Type your answer here..."></textarea>
+
+    <br><br>
+    <button type="button" onclick="startVoice()">🎤 Speak Answer</button>
+
+    <br><br>
+
+    <button type="submit">Submit Answer</button>
+    <br><br>
+
+<a href="{% url 'reset_interview' %}" class="btn btn-danger">
+    🔁 Restart Interview
+</a>
+</form>
+
+<script>
+function startVoice() {
+    const recognition = new webkitSpeechRecognition();
+    recognition.lang = "en-US";
+
+    recognition.onresult = function(event) {
+        document.getElementById("answerBox").value =
+            event.results[0][0].transcript;
+    };
+
+    recognition.start();
+}
+</script>
+
+<script>
+window.onload = function() {
+    let text = "{{ question }}";
+    let speech = new SpeechSynthesisUtterance(text);
+    speech.lang = "en-US";
+    speechSynthesis.speak(speech);
+}
+</script>
+
+{% endblock %}

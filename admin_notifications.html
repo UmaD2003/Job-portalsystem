@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>🔔 Admin Notifications</h2>
+
+<ul>
+{% for n in notifications %}
+    <li style="margin-bottom: 15px;">
+        <strong>{{ n.message }}</strong><br>
+        <small>{{ n.created_at }}</small><br>
+
+
+        <a href="{% url 'admin_dashboard' %}?job_id={{ n.job.id }}"
+           class="btn btn-primary btn-sm mt-1">
+           View Applications
+        </a>
+    </li>
+{% empty %}
+    <li>No notifications</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

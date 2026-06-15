@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<h2 class="text-center mb-4">Recommended Jobs</h2>
+
+<form method="get" class="mb-4">
+    <input
+        type="text"
+        name="skill"
+        placeholder="Enter skill (Python, Django, Testing)"
+        class="form-control form-control-lg"
+    >
+</form>
+
+<div class="row">
+
+{% if jobs %}
+
+{% for job in jobs %}
+
+<div class="col-lg-4 col-md-6 mb-4">
+
+<div class="card shadow-sm h-100">
+
+<div class="card-body">
+
+<h5 class="card-title">{{ job.title }}</h5>
+
+<p class="card-text">
+<strong>Company:</strong> {{ job.company }}
+</p>
+
+<p class="card-text">
+📍 {{ job.location }}
+</p>
+
+<span class="badge bg-success">{{ job.job_type }}</span>
+
+<p class="mt-2">
+💰 {{ job.salary|default:"Salary Not Disclosed" }}
+</p>
+
+<a href="/job/{{ job.id }}/" class="btn btn-primary mt-3 w-100">
+View Job
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+{% else %}
+
+<div class="text-center mt-5">
+
+<h4>No Recommended Jobs Found</h4>
+
+<p class="text-muted">
+Try searching with a different skill.
+</p>
+
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
+
+{% endblock %}

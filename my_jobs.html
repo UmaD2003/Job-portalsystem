@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+<h2>📌 My Applied Jobs</h2>
+
+{% for app in applications %}
+
+<div class="card mb-3 p-3">
+
+<h5>{{ app.job.title }}</h5>
+
+<p>🏢 {{ app.job.company }}</p>
+<p>📍 {{ app.job.location }}</p>
+
+<p>
+<strong>Status:</strong>
+
+{% if app.status == 'Approved' %}
+    <span class="badge bg-success">Approved</span>
+{% elif app.status == 'Rejected' %}
+    <span class="badge bg-danger">Rejected</span>
+{% else %}
+    <span class="badge bg-warning text-dark">Pending</span>
+{% endif %}
+
+</p>
+    <!-- ✅ REJECTION REASON (ONLY FOR REJECTED) -->
+    {% if app.status == "Rejected" %}
+        <div style="color:red; margin-top:8px;">
+            <b>❌ Rejection Reason:</b>
+            <p style="margin:0;">{{ app.rejection_reason }}</p>
+        </div>
+    {% endif %}
+
+
+<a href="/job/{{ app.job.id }}/" class="btn btn-primary">
+    View Job
+</a>
+
+</div>
+
+{% empty %}
+
+<p>No jobs applied</p>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

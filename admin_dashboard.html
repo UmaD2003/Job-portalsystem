@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>📊 Admin Dashboard – Job Applications</h2>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Candidate</th>
+        <th>Job</th>
+        <th>Applied On</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+
+    {% for app in applications %}
+    <tr>
+        <td>{{ app.full_name }}</td>
+        <td>{{ app.job.title }}</td>
+        <td>{{ app.applied_on }}</td>
+
+
+        <td>
+            {% if app.status == 'Approved' %}
+                <span style="color:green;">Approved</span>
+            {% elif app.status == 'Rejected' %}
+                <span style="color:red;">Rejected</span>
+            {% else %}
+                <span style="color:orange;">Pending</span>
+            {% endif %}
+        </td>
+
+        <td>
+
+           <a href="{% url 'view_application' app.id %}" class="btn btn-info btn-sm">
+   View
+</a>
+
+            <a href="{% url 'update_status' app.id 'Approved' %}"
+               class="btn btn-success btn-sm">
+               Approve
+            </a>
+
+            <a href="{% url 'reject_application' app.id %}" class="btn btn-danger btn-sm">
+    Reject
+</a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

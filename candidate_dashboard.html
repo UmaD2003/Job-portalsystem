@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h3>My Applications</h3>
+
+{% for app in apps %}
+<div class="card mb-2">
+    <div class="card-body">
+        <h5>{{ app.job.title }}</h5>
+        <p>{{ app.job.company }}</p>
+        <a href="{{ app.resume.url }}">View Resume</a>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}
