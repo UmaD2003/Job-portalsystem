@@ -1,0 +1,15 @@
+# Job Portal System
+
+A Django-based web application that connects job seekers and recruiters.
+
+## Features
+- User registration & login
+- Job posting by recruiters
+- Job search and apply system
+- Admin panel for management
+
+## Tech Stack
+Python, Django, HTML, CSS, Bootstrap, SQLite
+
+## Project Purpose
+Helps automate job searching and recruitment process in one platform.
